@@ -1,3 +1,3 @@
-module github.com/Minitiz/emptyfield
+module github.com/minitiz/emptyfield
 
 go 1.14
