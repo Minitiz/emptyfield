@@ -8,11 +8,11 @@ import (
 var tests = []struct {
 	testname string
 	data     interface{}
-	want     *Empty
+	want     Empty
 }{
 	{
 		testname: "test 1",
-		data: struct {
+		data: &struct {
 			test string
 		}{
 			"allo",
@@ -73,9 +73,9 @@ func TestCheck(t *testing.T) {
 	for _, tt := range tests {
 		t.Run("", func(t *testing.T) {
 			want := tt.want
-			got := Check(tt.data)
+			got, _ := Check(reflect.ValueOf(tt.data))
 			if !reflect.DeepEqual(want, got) {
-				t.Errorf("%s:\ngot:\n\t`%v`\nwant:\n\t`%v", tt.testname, want, got)
+				t.Errorf("%s:\ngot:\n\t`%v`\nwant:\n\t`%v`", tt.testname, want, got)
 			}
 		})
 	}

@@ -16,7 +16,7 @@ type datatest struct {
 // 	fmt.println(opts)
 // }
 
-func Test_tagOptions_Contains(t *testing.T) {
+func Test_Contains(t *testing.T) {
 	type args struct {
 		optionName string
 	}
@@ -35,12 +35,4 @@ func Test_tagOptions_Contains(t *testing.T) {
 			}
 		})
 	}
-}
-
-func Test_Contains(t *testing.T) {
-	t.Run("main", func(t *testing.T) {
-		o := tagOptions{"field"}
-		o.Contains("field")
-	})
-
 }
