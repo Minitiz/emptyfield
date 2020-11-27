@@ -19,8 +19,7 @@ func formatReturn(EmptyParsed []parser.EmptyValues, opts *opt.Options) (ret Empt
 	for i := range EmptyParsed {
 		ret = append(ret, EmptyParsed[i].Variable)
 	}
-	if opts.Panic {
-		log.Errorf("%v", ErrorGeneric)
+	if opts.Panic && len(EmptyParsed) > 0 {
 		for i := range ret {
 			log.Errorf("%s value is missing", ret[i])
 		}
