@@ -1,0 +1,29 @@
+variables:
+  REGISTRY: reg-ext.w6d.io
+  CONTAINER_IMAGE: ${REGISTRY}/${CI_PROJECT_PATH}
+  DOCKER_DRIVER: overlay2
+  JOB_USER: "gitlab-ci-token"
+
+stages:
+  - build
+  - tests
+
+build:
+  stage: build
+  image: golang:1.14.6
+  script:
+    - go build ./...
+  tags:
+    - dockerimage
+test:
+  stage: test
+  image: golang:1.14.6
+  script:
+    - go test ./...
+  tags:
+    - dockerimage
+
+include:
+  - project: 'library/stages'
+    ref: v1.0.0
+    file: '/gitlab/footer.yaml'
