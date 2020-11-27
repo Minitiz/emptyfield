@@ -19,7 +19,7 @@ tests:unit:
   stage: tests
   image: golang:1.14.6
   script:
-    - go test $(go list ./... | grep -v /vendor/) -v -coverprofile .testCoverage.txt
+    - go test $(go list ./... | grep -v /vendor/) -coverpkg=all -v -coverprofile .testCoverage.txt
   tags:
     - dockerimage
 
