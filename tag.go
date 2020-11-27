@@ -1,8 +1,12 @@
 package emptyfield
 
-import "strings"
+import (
+	"strings"
+)
 
-const tagStruct = "fields"
+const fieldTag = "field"
+const jsonTag = "json"
+const omitEmpty = "omitempty"
 
 type tagOptions string
 
