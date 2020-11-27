@@ -17,9 +17,8 @@ type test struct {
 func main() {
 	ParseConfigMap()
 
-	MDR, err := emptyfield.Check(reflect.ValueOf(CFG), emptyfield.JSONOmitEmptyEnabled)
+	MDR := emptyfield.Check(reflect.ValueOf(CFG))
 	fmt.Println(MDR)
-	fmt.Println(err)
 
 }
 
@@ -83,15 +82,17 @@ type ConfigMap struct {
 	}
 	Bosession struct {
 		Timeout int    `field:"omitempty"`
-		Hash    string `json:"test,omitempty"`
-	} `field:"omitempty"`
+		Hash    string `json:"test,omitempty" `
+	}
 }
 
+// CFG ...
 var CFG ConfigMap = ConfigMap{}
 
+// ParseConfigMap ...
 func ParseConfigMap() error {
 
-	valsByte, err := ioutil.ReadFile("testmar.yaml")
+	valsByte, err := ioutil.ReadFile("test.yaml")
 	if err != nil {
 		return err
 	}

@@ -1,4 +1,4 @@
-package emptyfield
+package tag
 
 import (
 	"testing"
@@ -42,4 +42,5 @@ func Test_Contains(t *testing.T) {
 		o := tagOptions{"field"}
 		o.Contains("field")
 	})
+
 }

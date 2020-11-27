@@ -1,22 +1,31 @@
-package emptyfield
+package tag
 
 import (
+	"reflect"
 	"strings"
+
+	opt "github.com/minitiz/emptyfield/pkg/options"
 )
 
-const fieldTag = "field"
-const jsonTag = "json"
-const omitEmpty = "omitempty"
+const (
+	fieldTag  = "field"
+	jsonTag   = "json"
+	omitEmpty = "omitempty"
+)
 
 type tagOptions string
 
-// parseTag splits a struct field's json tag into its name and
-// comma-separated options.
-func parseTag(tag string) (string, tagOptions) {
-	if idx := strings.Index(tag, ","); idx != -1 {
-		return tag[:idx], tagOptions(tag[idx+1:])
+func fieldPresent(info reflect.StructTag, tagName string) bool {
+	tags := info.Get(tagName)
+	return tagOptions(tags).Contains(omitEmpty)
+}
+
+// OmitEmptyTag ...
+func OmitEmptyTag(info reflect.StructTag, opt *opt.Options) bool {
+	if opt.JSONOmitEmpty && fieldPresent(info, jsonTag) {
+		return true
 	}
-	return tag, tagOptions("")
+	return fieldPresent(info, fieldTag)
 }
 
 // Contains reports whether a comma-separated list of options
