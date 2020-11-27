@@ -26,6 +26,7 @@ tests:lint:
   stage: tests
   image: golang:1.14.6
   script:
+    - go get -u golang.org/x/lint/golint
     - golint ./...
   tags:
     - dockerimage
