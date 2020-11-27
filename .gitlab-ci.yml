@@ -15,8 +15,8 @@ build:
     - go build ./...
   tags:
     - dockerimage
-test:
-  stage: test
+tests:unit:
+  stage: tests
   image: golang:1.14.6
   script:
     - go test ./...
