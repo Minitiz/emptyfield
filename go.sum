@@ -1,5 +1,15 @@
+github.com/dave/gopackages v0.0.0-20170318123100-46e7023ec56e h1:l99YKCdrK4Lvb/zTupt0GMPfNbncAGf8Cv/t1sYLOg0=
+github.com/dave/gopackages v0.0.0-20170318123100-46e7023ec56e/go.mod h1:i00+b/gKdIDIxuLDFob7ustLAVqhsZRk2qVZrArELGQ=
+github.com/dave/jennifer v1.4.1 h1:XyqG6cn5RQsTj3qlWQTKlRGAyrTcsk1kUmWdZBzRjDw=
+github.com/dave/jennifer v1.4.1/go.mod h1:7jEdnm+qBcxl8PC0zyp7vxcpSRnzXSt9r39tpTVGlwA=
+github.com/dave/kerr v0.0.0-20170318121727-bc25dd6abe8e h1:xURkGi4RydhyaYR6PzcyHTueQudxY4LgxN1oYEPJHa0=
+github.com/dave/kerr v0.0.0-20170318121727-bc25dd6abe8e/go.mod h1:qZqlPyPvfsDJt+3wHJ1EvSXDuVjFTK0j2p/ca+gtsb8=
+github.com/dave/rebecca v0.9.1 h1:jxVfdOxRirbXL28vXMvUvJ1in3djwkVKXCq339qhBL0=
+github.com/dave/rebecca v0.9.1/go.mod h1:N6XYdMD/OKw3lkF3ywh8Z6wPGuwNFDNtWYEMFWEmXBA=
 github.com/google/martian v2.1.0+incompatible h1:/CP5g8u/VJHijgedC/Legn3BAbAaWPgecwXBIDzw5no=
 github.com/google/martian v2.1.0+incompatible/go.mod h1:9I4somxYTbIHy5NJKHRl3wXiIaQGbYVAs8BPL6v8lEs=
+github.com/jimmyfrasche/autoreadme v0.0.0-20180503232641-58e67811d607 h1:8iNxXF8oGl6VnCGlDHY0eYz4DX/B99W3HpO5z4J5TyA=
+github.com/jimmyfrasche/autoreadme v0.0.0-20180503232641-58e67811d607/go.mod h1:lS0CTSpOQsTlXWQr5CjIJxxHnkW3HhRk1YS4HIqND54=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.4.0 h1:D8xgwECY7CYvx+Y2n4sBz93Jn9JRvxdiyyo8CTfuKaY=
 gopkg.in/yaml.v2 v2.4.0/go.mod h1:RDklbk79AGWmwhnvt/jBztapEOGDOx6ZbXqjP6csGnQ=
