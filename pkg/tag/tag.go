@@ -8,8 +8,6 @@ import (
 )
 
 const (
-	fieldTag  = "field"
-	jsonTag   = "json"
 	omitEmpty = "omitempty"
 )
 

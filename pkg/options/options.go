@@ -4,7 +4,7 @@ package opt
 type Option func(f *Options)
 
 const (
-	flag = "emptyvalue"
+	flag = "field"
 )
 
 // Tag ...
