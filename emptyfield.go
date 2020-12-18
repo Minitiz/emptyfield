@@ -1,7 +1,6 @@
 package emptyfield
 
 import (
-	"errors"
 	"reflect"
 
 	"github.com/google/martian/log"
@@ -9,11 +8,20 @@ import (
 	"github.com/minitiz/emptyfield/pkg/parser"
 )
 
-// Empty ...
+// Empty is return to function as result
 type Empty []string
 
+// ErrorType ...
+type ErrorType string
+
+func (e ErrorType) Error() string {
+	return string(e)
+}
+
 // ErrorGeneric is send to panic if opt.Panic is enabled
-var ErrorGeneric error = errors.New("Empty fields detected")
+const (
+	ErrorGeneric ErrorType = "Empty fields detected"
+)
 
 func formatReturn(EmptyParsed []parser.EmptyValues, opts *opt.Options) (ret Empty, err error) {
 	for i := range EmptyParsed {
@@ -38,10 +46,12 @@ func formatReturn(EmptyParsed []parser.EmptyValues, opts *opt.Options) (ret Empt
 // able to panic if PanicEnabled is past on params.
 func Check(data reflect.Value, opts ...opt.Option) (Empty, error) {
 	f := &opt.Options{}
+
 	// Option paremeters values:
 	for _, op := range opts {
 		op(f)
 	}
+	f.ApplyTagEmptyValue()
 	// checkData() on doit checker si data a au moins un field rempli
 	return formatReturn(parser.GetEmptyValues(reflect.Indirect(data), reflect.StructField{Name: "T"}, f), f)
 }

@@ -15,17 +15,15 @@ const (
 
 type tagOptions string
 
-func fieldPresent(info reflect.StructTag, tagName string) bool {
-	tags := info.Get(tagName)
-	return tagOptions(tags).Contains(omitEmpty)
-}
-
 // OmitEmptyTag ...
 func OmitEmptyTag(info reflect.StructTag, opt *opt.Options) bool {
-	if opt.JSONOmitEmpty && fieldPresent(info, jsonTag) {
-		return true
+	for i := range opt.Tags {
+		tags := info.Get(opt.Tags[i])
+		if tagOptions(tags).Contains(omitEmpty) {
+			return true
+		}
 	}
-	return fieldPresent(info, fieldTag)
+	return false
 }
 
 // Contains reports whether a comma-separated list of options
