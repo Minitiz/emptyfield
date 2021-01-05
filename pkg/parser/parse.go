@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"log"
 	"reflect"
 
 	opt "github.com/minitiz/emptyfield/pkg/options"
@@ -20,6 +21,7 @@ type EmptyValues struct {
 func addParentPath(parentName string, childrens []EmptyValues) []EmptyValues {
 	for i := range childrens {
 		childrens[i].Variable = fmt.Sprintf("%s.%s", parentName, childrens[i].Variable)
+		log.Println("FORMAT", childrens)
 	}
 	return childrens
 }
@@ -28,6 +30,7 @@ func addParentPath(parentName string, childrens []EmptyValues) []EmptyValues {
 func GetEmptyValues(e reflect.Value, infos reflect.StructField, opt *opt.Options) (ret []EmptyValues) {
 	empty := false
 	ChildrenToAdd := []EmptyValues{}
+
 	switch e.Type().Kind() {
 	case reflect.Ptr:
 		empty = e.IsNil()
@@ -35,18 +38,20 @@ func GetEmptyValues(e reflect.Value, infos reflect.StructField, opt *opt.Options
 			ret = append(ret, GetEmptyValues(e.Elem(), infos, opt)...)
 		}
 	case reflect.Struct:
+		empty = e.NumField() == 0
 		emptyCounter := 0
-		for i := e.NumField() - 1; i >= 0; i-- {
-			if EmptyChildren := GetEmptyValues(e.Field(i), reflect.TypeOf(e.Interface()).Field(i), opt); len(EmptyChildren) > 0 {
+		for i := 0; i < e.NumField(); i++ {
+			if EmptyChildren := GetEmptyValues(e.Field(i), e.Type().Field(i), opt); len(EmptyChildren) > 0 {
 				ChildrenToAdd = append(ChildrenToAdd, addParentPath(infos.Name, EmptyChildren)...)
 				emptyCounter++
 			}
 			empty = emptyCounter == e.NumField()
 		}
 	case reflect.Array, reflect.Slice:
-		for i := e.Len() - 1; i >= 0; i-- {
+		empty = e.Len() == 0
+		for i := 0; i > e.Len(); i++ {
 			emptyCounter := 0
-			if EmptyChildren := GetEmptyValues(e.Index(i), reflect.TypeOf(e.Interface()).Field(i), opt); len(EmptyChildren) > 0 {
+			if EmptyChildren := GetEmptyValues(e.Index(i), e.Type().Field(i), opt); len(EmptyChildren) > 0 {
 				ChildrenToAdd = append(ChildrenToAdd, addParentPath(infos.Name, EmptyChildren)...)
 				emptyCounter++
 			}
@@ -65,10 +70,11 @@ func GetEmptyValues(e reflect.Value, infos reflect.StructField, opt *opt.Options
 	case reflect.Interface, reflect.Map:
 		empty = e.IsNil()
 	}
-	if empty && !tag.OmitEmptyTag(infos.Tag, opt) {
-		ret = append(ret, EmptyValues{infos.Name, e})
-	} else if len(ChildrenToAdd) > 0 {
+	if len(ChildrenToAdd) > 0 {
 		ret = append(ret, ChildrenToAdd...)
+
+	} else if empty && !tag.OmitEmptyTag(infos.Tag, opt) {
+		ret = append(ret, EmptyValues{infos.Name, e})
 	}
 	return ret
 }

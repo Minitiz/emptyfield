@@ -21,6 +21,7 @@ func (e ErrorType) Error() string {
 // ErrorGeneric is send to panic if opt.Panic is enabled
 const (
 	ErrorGeneric ErrorType = "Empty fields detected"
+	ErrorCritic  ErrorType = "Given structure is nil"
 )
 
 func formatReturn(EmptyParsed []parser.EmptyValues, opts *opt.Options) (ret Empty, err error) {
@@ -35,8 +36,9 @@ func formatReturn(EmptyParsed []parser.EmptyValues, opts *opt.Options) (ret Empt
 			panic(ErrorGeneric)
 		}
 		err = ErrorGeneric
+		return
 	}
-	return ret, err
+	return nil, err
 }
 
 // Check your structure fields and detect empty field into your struct
@@ -45,6 +47,10 @@ func formatReturn(EmptyParsed []parser.EmptyValues, opts *opt.Options) (ret Empt
 // able to skip an omitempty field with json tag if JSONOmitEmptyEnabled is past on params
 // able to panic if PanicEnabled is past on params.
 func Check(data reflect.Value, opts ...opt.Option) (Empty, error) {
+	if !data.IsValid() {
+		return nil, ErrorCritic
+	}
+
 	f := &opt.Options{}
 
 	// Option paremeters values:
@@ -53,5 +59,6 @@ func Check(data reflect.Value, opts ...opt.Option) (Empty, error) {
 	}
 	f.ApplyTagEmptyValue()
 	// checkData() on doit checker si data a au moins un field rempli
+
 	return formatReturn(parser.GetEmptyValues(reflect.Indirect(data), reflect.StructField{Name: "T"}, f), f)
 }
