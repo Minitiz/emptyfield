@@ -2,7 +2,6 @@ package parser
 
 import (
 	"fmt"
-	"log"
 	"reflect"
 
 	opt "github.com/minitiz/emptyfield/pkg/options"
@@ -21,7 +20,6 @@ type EmptyValues struct {
 func addParentPath(parentName string, childrens []EmptyValues) []EmptyValues {
 	for i := range childrens {
 		childrens[i].Variable = fmt.Sprintf("%s.%s", parentName, childrens[i].Variable)
-		log.Println("FORMAT", childrens)
 	}
 	return childrens
 }
@@ -70,9 +68,8 @@ func GetEmptyValues(e reflect.Value, infos reflect.StructField, opt *opt.Options
 	case reflect.Interface, reflect.Map:
 		empty = e.IsNil()
 	}
-	if len(ChildrenToAdd) > 0 {
+	if len(ChildrenToAdd) > 0 && !tag.OmitEmptyTag(infos.Tag, opt) {
 		ret = append(ret, ChildrenToAdd...)
-
 	} else if empty && !tag.OmitEmptyTag(infos.Tag, opt) {
 		ret = append(ret, EmptyValues{infos.Name, e})
 	}

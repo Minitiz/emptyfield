@@ -203,7 +203,7 @@ var tests = []struct {
 				nbr    int64
 				tabstr []string
 				tabnbr []int64
-			}
+			} `field:"omitempty"`
 		}{
 			data: struct {
 				str    string
@@ -216,7 +216,57 @@ var tests = []struct {
 			},
 		},
 		want: ret{
-			[]string{"T.data.str", "T.data.tabstr"},
+			nil,
+			nil,
+		},
+	},
+	{
+		testname: "test 11 - omitempty only 1 field with tag",
+		data: &struct {
+			data struct {
+				str    string `field:"omitempty"`
+				nbr    int64
+				tabstr []string
+				tabnbr []int64
+			}
+		}{
+			data: struct {
+				str    string `field:"omitempty"`
+				nbr    int64
+				tabstr []string
+				tabnbr []int64
+			}{
+				nbr:    4,
+				tabnbr: []int64{1, 2, 3, 4, 5},
+			},
+		},
+		want: ret{
+			[]string{"T.data.tabstr"},
+			ErrorGeneric,
+		},
+	},
+	{
+		testname: "test 12 - omitempty only 1 field with tag",
+		data: &struct {
+			data struct {
+				str    string `field:"omitempty"`
+				nbr    int64
+				tabstr []string
+				tabnbr []int64
+			}
+		}{
+			data: struct {
+				str    string `field:"omitempty"`
+				nbr    int64
+				tabstr []string
+				tabnbr []int64
+			}{
+				nbr:    4,
+				tabnbr: []int64{1, 2, 3, 4, 5},
+			},
+		},
+		want: ret{
+			[]string{"T.data.tabstr"},
 			ErrorGeneric,
 		},
 	},
