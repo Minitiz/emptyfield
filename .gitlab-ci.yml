@@ -19,7 +19,7 @@ tests:unit:
   stage: tests
   image: golang:1.14.6
   script:
-    - go get golang.org/x/tools/cmd/coverZ
+    - go get golang.org/x/tools/cmd/cover
     - go test -coverprofile fmtcoverage.html fmt
   tags:
     - dockerimage
