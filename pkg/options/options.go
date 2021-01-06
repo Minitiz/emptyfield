@@ -16,7 +16,7 @@ type Options struct {
 	Tags  Tag
 }
 
-// OmitEmptyTag ...
+// OmitEmptyTag add a field to check if omitempty is present on this tag
 func OmitEmptyTag(t string, v ...string) Option {
 	return func(f *Options) {
 		f.Tags = append(v, t)
