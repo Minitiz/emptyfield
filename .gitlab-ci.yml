@@ -19,7 +19,8 @@ tests:unit:
   stage: tests
   image: golang:1.14.6
   script:
-    - go test $(go list ./... | grep -v /vendor/) -coverpkg=all -v -coverprofile .testCoverage.txt
+    - go get golang.org/x/tools/cmd/coverZ
+    - go test -coverprofile fmtcoverage.html fmt
   tags:
     - dockerimage
 tests:lint:

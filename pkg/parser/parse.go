@@ -47,9 +47,9 @@ func GetEmptyValues(e reflect.Value, infos reflect.StructField, opt *opt.Options
 		}
 	case reflect.Array, reflect.Slice:
 		empty = e.Len() == 0
-		for i := 0; i > e.Len(); i++ {
+		for i := 0; i < e.Len(); i++ {
 			emptyCounter := 0
-			if EmptyChildren := GetEmptyValues(e.Index(i), e.Type().Field(i), opt); len(EmptyChildren) > 0 {
+			if EmptyChildren := GetEmptyValues(e.Index(i), reflect.StructField{Name: e.Type().Name()}, opt); len(EmptyChildren) > 0 {
 				ChildrenToAdd = append(ChildrenToAdd, addParentPath(infos.Name, EmptyChildren)...)
 				emptyCounter++
 			}

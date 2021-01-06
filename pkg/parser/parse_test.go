@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	opt "github.com/minitiz/emptyfield/pkg/options"
+	"k8s.io/utils/pointer"
 )
 
 func Test_addParentPath(t *testing.T) {
@@ -111,6 +112,23 @@ func TestGetEmptyValues(t *testing.T) {
 			subfield4 []int64
 		} `field:"omitempty"`
 	}
+	type typeof4 struct {
+		field1 string
+		field2 int64
+		field3 []string
+		field4 []int64
+		field5 uint
+		field6 bool
+		field7 *string
+		field8 map[string]interface{}
+		field9 []struct {
+			subfield1 string
+			subfield2 int64
+			subfield3 []string
+			subfield4 []int64
+		} `field:"omitempty"`
+		field10 float64
+	}
 	var1 := typeof1{
 		field1: "test",
 		field2: 42,
@@ -173,6 +191,32 @@ func TestGetEmptyValues(t *testing.T) {
 		}{},
 	}
 	valueof4 := reflect.ValueOf(var4)
+	var5 := typeof4{
+		field1: "123",
+		field2: 123,
+		field3: []string{"test"},
+		field4: []int64{123, 123},
+		field5: 0,
+		field6: true,
+		field7: pointer.StringPtr("test"),
+		field8: map[string]interface{}{"test": "test"},
+		field9: []struct {
+			subfield1 string
+			subfield2 int64
+			subfield3 []string
+			subfield4 []int64
+		}{
+			{
+				subfield1: "qwe",
+				subfield2: 0,
+				subfield3: []string{"qwe"},
+				subfield4: []int64{123, 123},
+			},
+		},
+		field10: 4.2,
+	}
+	valueof5 := reflect.ValueOf(var5)
+
 	// valueof2 := reflect.ValueOf(typeof{"test2"})
 	// valueof3 := reflect.ValueOf(typeof{"test3"})
 	tests := []struct {
@@ -241,15 +285,38 @@ func TestGetEmptyValues(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "test 4 -  basic all case",
+			args: args{
+				e:     valueof5,
+				infos: reflect.StructField{Name: "T"},
+				opt: &opt.Options{
+					Panic: false,
+					Tags:  []string{"field"},
+				},
+			},
+			wantRet: []EmptyValues{
+				{
+					Variable: "T.field5",
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotRet := GetEmptyValues(tt.args.e, tt.args.infos, tt.args.opt)
+			ret := []string{}
+			want := []string{}
 			for i := range gotRet {
-				if !reflect.DeepEqual(gotRet[i].Variable, tt.wantRet[i].Variable) {
-					t.Errorf("%s:\ngot:\n\t`%v`\nwant:\n\t`%v`", tt.name, gotRet, tt.wantRet)
-				}
+				ret = append(ret, gotRet[i].Variable)
 			}
+			for i := range tt.wantRet {
+				want = append(want, tt.wantRet[i].Variable)
+			}
+			if !reflect.DeepEqual(ret, want) {
+				t.Errorf("%s:\ngot:\n\t`%v`\nwant:\n\t`%v`", tt.name, gotRet, tt.wantRet)
+			}
+
 		})
 	}
 }
