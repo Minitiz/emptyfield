@@ -217,8 +217,6 @@ func TestGetEmptyValues(t *testing.T) {
 	}
 	valueof5 := reflect.ValueOf(var5)
 
-	// valueof2 := reflect.ValueOf(typeof{"test2"})
-	// valueof3 := reflect.ValueOf(typeof{"test3"})
 	tests := []struct {
 		name    string
 		args    args

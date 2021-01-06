@@ -283,7 +283,3 @@ func TestCheck(t *testing.T) {
 		})
 	}
 }
-
-func TestPanic(t *testing.T) {
-
-}

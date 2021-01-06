@@ -13,12 +13,6 @@ type datatest struct {
 	want     bool
 }
 
-// func TestContains(t *testing.T) {
-// 	name, opts := parserTag("fields")
-// 	fmt.println(name)
-// 	fmt.println(opts)
-// }
-
 func Test_Contains(t *testing.T) {
 	type args struct {
 		optionName string
@@ -59,7 +53,6 @@ func Test_Contains(t *testing.T) {
 			args: args{omitEmpty},
 			want: false,
 		},
-		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -95,7 +88,6 @@ func Test_OmitEmpty(t *testing.T) {
 		want bool
 	}{
 
-		//presence omitempty on field tag
 		{"test 0 - test field tag", fieldTagTest{"test"}, &opt.Options{false, []string{"field"}}, true},
 		{"test 1 - test json tag", jsonTagTest{"test"}, &opt.Options{false, []string{"json"}}, true},
 		{"test 2 - test json tag", jsonTagTest{"test"}, &opt.Options{false, []string{}}, false},

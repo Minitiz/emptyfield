@@ -52,13 +52,9 @@ func Check(data reflect.Value, opts ...opt.Option) (Empty, error) {
 	}
 
 	f := &opt.Options{}
-
-	// Option paremeters values:
 	for _, op := range opts {
 		op(f)
 	}
 	f.ApplyTagEmptyValue()
-	// checkData() on doit checker si data a au moins un field rempli
-
 	return formatReturn(parser.GetEmptyValues(reflect.Indirect(data), reflect.StructField{Name: "T"}, f), f)
 }

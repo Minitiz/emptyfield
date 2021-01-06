@@ -14,9 +14,6 @@ type EmptyValues struct {
 	Ref      reflect.Value
 }
 
-// // Options ...
-// type Options emptyfield.Options
-
 func addParentPath(parentName string, childrens []EmptyValues) []EmptyValues {
 	for i := range childrens {
 		childrens[i].Variable = fmt.Sprintf("%s.%s", parentName, childrens[i].Variable)
