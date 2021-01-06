@@ -68,6 +68,7 @@ func GetEmptyValues(e reflect.Value, infos reflect.StructField, opt *opt.Options
 	case reflect.Interface, reflect.Map:
 		empty = e.IsNil()
 	}
+
 	if len(ChildrenToAdd) > 0 && !tag.OmitEmptyTag(infos.Tag, opt) {
 		ret = append(ret, ChildrenToAdd...)
 	} else if empty && !tag.OmitEmptyTag(infos.Tag, opt) {

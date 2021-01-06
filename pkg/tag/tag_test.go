@@ -29,13 +29,43 @@ func Test_Contains(t *testing.T) {
 		args args
 		want bool
 	}{
+		{
+			name: "test 0",
+			o:    `omitempty`,
+			args: args{omitEmpty},
+			want: true,
+		},
+		{
+			name: "test 1",
+			o:    `hello,omitempty`,
+			args: args{omitEmpty},
+			want: true,
+		},
+		{
+			name: "test 2",
+			o:    `hello,`,
+			args: args{omitEmpty},
+			want: false,
+		},
+		{
+			name: "test 3",
+			o:    `hello,bonjour`,
+			args: args{omitEmpty},
+			want: false,
+		},
+		{
+			name: "test 4",
+			o:    ``,
+			args: args{omitEmpty},
+			want: false,
+		},
 		// TODO: Add test cases.
 
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.o.Contains(tt.args.optionName); got != tt.want {
-				t.Errorf("tagOptions.Contains() = %v, want %v", got, tt.want)
+				t.Errorf("%s:\ngot:\n\t`%v`\nwant:\n\t`%v`", tt.name, got, tt.want)
 			}
 		})
 	}
@@ -74,21 +104,6 @@ func Test_OmitEmpty(t *testing.T) {
 		{"test 4 - test yaml tag", yamlTagTest{"test"}, &opt.Options{false, []string{}}, false},
 		{"test 5 - test no tag", noTagTest{"test"}, &opt.Options{}, false},
 	}
-
-	//presence omitempty on json tag but opt nil
-	// {
-	// 	name: "test 2",
-	// 	data struct{
-	// 		test string `json:",omitempty`
-	// 	}{
-	// 		"test",
-	// 	},
-	// 	opt: nil,
-	// 	want false,
-	// },
-	//presence omitempty on json tag and opt say to parse it
-
-	// TODO: Add test cases.
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
