@@ -206,4 +206,35 @@ func main() {
 	emptyfield6, err := emptyfield.Check(reflect.ValueOf(variable6), opt.OmitEmptyTag("json"))
 	log.Printf("Example 6 - return emptyfield => \n\t`%v`\n && error => \n\t`%v`\n", emptyfield6, err)
 
+	// usecase with one field empty and panic
+	// field2 will be equal to 0 with no tag omitempty on his field
+	// opt.PanicEnabled is sended so if Check get an emptyfield, program will panic and log the error with the emptyfield
+	var variable7 = test{
+		field1: "123",
+		field2: 0,
+		field3: []string{"test"},
+		field4: []int64{123, 123},
+		field5: 64,
+		field6: true,
+		field7: pointer.StringPtr("test"),
+		field8: map[string]interface{}{"test": "test"},
+		field9: []struct {
+			subfield1 string
+			subfield2 int64
+			subfield3 []string
+			subfield4 []int64
+		}{
+			{
+				subfield1: "qwe",
+				subfield2: 51,
+				subfield3: []string{"qwe"},
+				subfield4: []int64{123, 123},
+			},
+		},
+		field10: 4.2,
+	}
+	emptyfield.Check(reflect.ValueOf(variable7), opt.PanicEnabled)
+
+	//no more cause panic is enabled
+
 }
