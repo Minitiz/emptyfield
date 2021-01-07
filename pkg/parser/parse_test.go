@@ -20,7 +20,6 @@ func Test_addParentPath(t *testing.T) {
 	valueof1 := reflect.ValueOf(typeof{"test1"})
 	valueof2 := reflect.ValueOf(typeof{"test2"})
 	valueof3 := reflect.ValueOf(typeof{"test3"})
-	// valueof3 := tp{"test3"}
 
 	tests := []struct {
 		name string
